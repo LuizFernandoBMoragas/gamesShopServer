@@ -8,12 +8,12 @@ app.use(express.json());
 
 app.use(cors());
 
-// const dataBase = mysql.createPool({
-//   host: "localhost",
-//   user: "root",
-//   password: "P4d48iv9!",
-//   database: "crudgames",
-// });
+const db = mysql.createPool({
+  host: "localhost",
+  user: "root",
+  password: "P4d48iv9!",
+  database: "gamesShop",
+});
 
 app.post("/register", (req, res) => {
   const { name } = req.body;
@@ -22,7 +22,7 @@ app.post("/register", (req, res) => {
 
   let SQL = "INSERT INTO games ( name, cost, category ) VALUES ( ?, ?, ? )";
 
-  dataBase.query(SQL, [name, cost, category], (error, result) => {
+  db.query(SQL, [name, cost, category], (error, result) => {
     console.log(error);
   });
 });
@@ -30,7 +30,7 @@ app.post("/register", (req, res) => {
 app.get("/getCards", (req, res) => {
   let SQL = "SELECT * FROM games";
 
-  dataBase.query(SQL, (error, result) => {
+  db.query(SQL, (error, result) => {
     if (error) console.log(error);
     else res.send(result);
   });
@@ -45,7 +45,7 @@ app.put("/edit", (req, res) => {
   let SQL =
     "UPDATE games SET name = ?, cost = ?, category = ? WHERE idgames = ?";
 
-  dataBase.query(SQL, [name, cost, category, id], (error, result) => {
+  db.query(SQL, [name, cost, category, id], (error, result) => {
     if (error) console.log(error);
     else res.send(result);
   });
@@ -55,7 +55,7 @@ app.delete("/delete/:id", (req, res) => {
   const { id } = req.params;
 
   let SQL = "DELETE FROM games WHERE idgames = ?";
-  dataBase.query(SQL, [id], (error, result) => {
+  db.query(SQL, [id], (error, result) => {
     if (error) console.log(error);
     else res.send(result);
   });
