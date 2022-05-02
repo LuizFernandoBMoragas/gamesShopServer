@@ -9,10 +9,10 @@ app.use(express.json());
 app.use(cors());
 
 const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "P4d48iv9!",
-  database: "gamesShop",
+  host: process.env.MY_HOST,
+  user: process.env.MY_USER,
+  password: process.env.MY_PASSWORD,
+  database: process.env.MY_DATABASE,
 });
 
 app.post("/register", (req, res) => {
